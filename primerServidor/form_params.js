@@ -1,4 +1,11 @@
-var http = require('http'), fs = require('fs');
+var http = require('http'), fs = require('fs'),
+  //tambien lo importamos como libreria. pero ahora es libreria local
+  //pero esto nos arroja un objeto
+  parser = require("./params_parser.js"),
+  render_html = require("./render_html.js");
+  //almacenamos la funcion en una variable. igual podemos exportar datos aparte de funciones
+  var p = parser.parse;
+  var render1 = render_html.render;
 http.createServer(function(req, res){
   /*
   Si hacemos un log al req podemos ver toda la solicitud que el navegador le manda al servidor.
@@ -7,34 +14,13 @@ http.createServer(function(req, res){
   */
   //este if es para descartar la segunda peticion que hace la pagina para pedir el favicon
   if (req.url.indexOf("favicon.ico")>0) {return;}
-
-
   fs.readFile("./form_params.html",function(err, html){
     var html_string = html.toString();
-    var array_parametros = [], parametros = {};
-    var variables = html_string.match(/[^\{\}]+(?=\})/g);
-    var nombre = "miguel";
-    //esto es para verificar que nos est+en mandandando datos por la url en peticion get
-    if (req.url.indexOf("?")>0){
-      //req.url = ?nombre=miguel
-      var url_data = req.url.split('?');
-      //separamos todos los datos que nos puedan mandar
-      array_parametros = url_data[1].split('&');
-    }
-    for (var i = 0; i < array_parametros.length; i++) {
-        var param_data = array_parametros[i].split('=');
-        //[nombre,miguel] => {nombre:miguel}
-        parametros [param_data[0]] = param_data[1];
-    }
-
-    for (var i = 0; i < variables.length; i++) {
-     var value = eval(variables[i]);
-     var variable = variables[i];
-     html_string = html_string.replace("{"+variables[i]+"}", parametros[variable])
-   };
+    //aqui mandamos el request para que sea filtrado alv
+    var parametros = p(req);
 
     res.writeHead(200, {"Content-DOCTYPE":"text/html"});
-    res.write(html_string);
+    res.write(render1(html_string,parametros));
     res.end();
   });
 }).listen(8080);
