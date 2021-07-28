@@ -3,3 +3,15 @@ html
     title Mi primera pagina con express y jade
   body
     h1!= hola
+    - var arreglo = [1,2,3,4,5];
+    - for (var i = 0; i < arreglo.length; i++)
+      p hola #{arreglo[i]}
+    //comentario mamalon
+    //es importante poner el punto para que no interprete hola como una etiqueta
+    p.
+      hola haz click en #[a(href="google.com") este link] por favor
+    -if (true)
+      p wenas noshes
+    //if sin parentesis
+    if true
+      p wenas tardes

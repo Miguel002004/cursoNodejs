@@ -24,8 +24,6 @@ cuando se instalan paquetes se crean archivos .json que indican que paquetes est
 
 es importante hacer un archivo `.gitignore` para no agregar los modulos de los paquetes. ya que estos modulos cambian. pero se installan con npm install
 
-
-
 ## jade
 
 jade es un motor de vistas(render) para html que hace buena sinergia con express
@@ -35,3 +33,24 @@ y usa lenguaje con iteraciones. parecido a python y es una especie de traductor
 las vistas creadas se tienen que crear en una carpeta llamada `views` y los archivos son `.jade`
 
 `!= hola` significa que hay una variable "hola"
+
+cuando hay un `-` al principio de una line significa que es codigo $js$ que se ejecuta en el servidor
+
+el `=` ejecuta e imprime el codigo js
+
+el  `p!=<h1>hola</h1>` ejecuta el codigo html como tal
+
+**interpolacion o concatenacion entre texto y js**
+
+se usa el
+
+`p hola #{arreglo[i]}`
+
+para concatenar texto y javascript 
+
+```jade
+h1!= hola
+    - var arreglo = [1,2,3,4,5];
+    - for (var i = 0; i < arreglo.length; i++)
+      p hola #{arreglo[i]}
+```
