@@ -54,3 +54,31 @@ h1!= hola
     - for (var i = 0; i < arreglo.length; i++)
       p hola #{arreglo[i]}
 ```
+
+## Express
+
+Una aplicacion express es en pocas palabras una serie de funciones middelware ejecutandose
+
+**¿que es un middelwere?**
+
+request-response cycle
+
+recibimos una peticion ===> mandamos una respuesta
+
+todo lo que se hace en medio de esas peticiones (en la flecha) es en donde trabajamos con express y hay acceso al request y al response. 
+
+se pueden tener varios middelwere ejecutandose en una peticion
+
+durante el proceso de respuesta hay  una pilade funciondes middelware ejecutandose. cada una puede llamar a la siguiente o terminar el ciclo
+
+### Tipos de middelware
+
++ **Nivel aplicacion:** es similar al que hicimos a "mano"(las funciones middelwere reciben 3 funciones: request, response y next donde next es a la siguiente funcion a ejecutar o a rederizar)
+
++ **Nivel routing**: todavia no lo usamos pero está chido
+
++ **De manejo de errores:** reciben 4 parametros: error, request, response y next. se manda a llamar next como paramtro el error
+
++ **Built-in (la que biene con express):** se encarga de servir los archivos estaticos
+
++ **De terceros:** se instalan a npm para  extender la funcionalidad de otros
