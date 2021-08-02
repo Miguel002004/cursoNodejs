@@ -17,12 +17,15 @@ app.set("view engine", "jade")
 app.get("/",function(req,res) {
   res.render("index");
 });
-app.get("/login",function(req,res) {
+app.get("/signup",function(req,res) {
   //consulta todos los datos de la base de datos
   User.find((err,doc)=>{
     console.log(doc);
-    res.render("login");
+    res.render("signup");
   });
+});
+app.get("/login",function(req,res) {
+    res.render("login");
 });
 //recibimos el formulario
 //req.body.password. accedemos a los elementos de la peticion con su atributo name
@@ -49,5 +52,13 @@ user.save().then(function (usuario_promesa) {
     console.log(String(err));
     res.send("hubo un error al guardar el usuario");
   }});
+});
+app.post("/sessions",function(req,res) {
+  //es como un select en mongodb
+  User.findOne({email:req.body.email, password:req.body.password},function(err,docs) {
+    //arriba, se puede usar el User.find el problema es que si hay documentos(regostros) duplicados los traé todos
+    console.log(docs);
+    res.send("hola mundo");
+  });
 });
 app.listen(8080);
