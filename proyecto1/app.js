@@ -32,11 +32,22 @@ app.post("/users",function(req,res) {
                        password_confirmation: req.body.password_confirmation,
                        username: req.body.username});
   console.log(user.password_confirmation);
-  //callback para saber cuando ya se guardaron los datos y ver errores
+/*  ===========guardar con callback(acsincrono)============
+//callback para saber cuando ya se guardaron los datos y ver errores
   user.save((err)=>{
     if (err) {
       console.log(String(err));
     }
     res.send("recibimos tus datos");});
+});*/
+
+//guardar con promesa
+user.save().then(function (usuario_promesa) {
+  res.send("guardamos el usuario exitosamente");
+}, function(err) {
+  if (err) {
+    console.log(String(err));
+    res.send("hubo un error al guardar el usuario");
+  }});
 });
 app.listen(8080);
