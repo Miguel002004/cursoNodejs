@@ -27,7 +27,8 @@ app.get("/login",function(req,res) {
 //recibimos el formulario
 //req.body.password. accedemos a los elementos de la peticion con su atributo name
 app.post("/users",function(req,res) {
-  var user = new User({email:req.body.email, password:req.body.password});
+  var user = new User({email:req.body.email, password:req.body.password, password_confirmation: req.body.password_confirmation});
+  console.log(user.password_confirmation);
   //callback para saber cuando ya se guardaron los datos y ver errores
   user.save(()=>{res.send("recibimos tus datos");});
 });
