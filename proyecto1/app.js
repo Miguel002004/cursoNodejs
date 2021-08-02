@@ -1,18 +1,7 @@
 var express = require('express');
 var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
 var app = express();
-var Schema = mongoose.Schema;
-
-//conectando a mongodb. el pedazo de linea despues de la coma es ncecsario lo indica la documentacion oficial
-mongoose.connect("mongodb://localhost/fotos",{useNewUrlParser: true, useUnifiedTopology: true});
-var useSchemaJSON = {
-  email:String,
-  password:String
-}
-
-var user_Schema = new Schema(useSchemaJSON);
-var User = mongoose.model("User",user_Schema);
+var User = require("./models/user").User;
 
 //middelware built-in para archivos estaticos en la carpeta /public
 //todo lo que está en public se puede acceder mediante la url(como en apache)
