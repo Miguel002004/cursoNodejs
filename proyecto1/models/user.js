@@ -10,7 +10,16 @@ var email_match= [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "coloca un em
 var user_Schema = new Schema({
   name:String,
   username:{type:String, required:true, maxlength:[50, "username muy grande"]},
-  password: {type:String, minlength:[8,"la contraseña tiene que tener más de 8 caracteres"]},
+  password: {
+    type:String,
+    minlength:[8,"la contraseña tiene que tener más de 8 caracteres"],
+    validate: {
+      validator:function(password_validate) {
+      return this.password_confirmation == password_validate;
+    },
+    message: "las contraseñas no son iguales"
+      }
+    },
   age:{type:Number, min:[5, "la edad no puede ser menor a 5 años"], max:[100,"la edad no puede ser mayor a 100 años"]},
   email:{type:String, required: "El correo es obligatorio", match:email_match},
   date_of_birth:Date,
