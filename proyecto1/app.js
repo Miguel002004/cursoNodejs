@@ -71,7 +71,7 @@ app.post("/sessions",function(req,res) {
     //arriba, se puede usar el User.find el problema es que si hay documentos(regostros) duplicados los traé todos
     console.log(user);
     req.session.user_id = user._id;//el _id es el id que manda mongo para cada documento
-    res.send("hola mundo");
+    res.redirect("/app");
   });
 });
 app.use("/app", session_middleware);//mi middleware para redirigir si no a iniciado sesion
