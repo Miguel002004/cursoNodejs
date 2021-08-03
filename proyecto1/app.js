@@ -3,6 +3,8 @@ var bodyParser = require("body-parser");
 var app = express();
 var User = require("./models/user").User;
 var session = require("express-session");
+var router_app = require("./routers_app");
+var session_middleware = require("./middlewares/sessions");
 
 //middelware built-in para archivos estaticos en la carpeta /public
 //todo lo que está en public se puede acceder mediante la url(como en apache)
@@ -72,4 +74,6 @@ app.post("/sessions",function(req,res) {
     res.send("hola mundo");
   });
 });
+app.use("/app", session_middleware);//mi middleware para redirigir si no a iniciado sesion
+app.use("/app", router_app);//router sobre /app
 app.listen(8080);
