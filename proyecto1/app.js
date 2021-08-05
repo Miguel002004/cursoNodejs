@@ -2,7 +2,8 @@ var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
 var User = require("./models/user").User;
-var session = require("express-session");
+/*var session = require("express-session");//administra las sesiones en la ram del servidor. cada que se reinicia se pierden las sesiones alv*/
+var cookieSession = require("cookie-session");
 var router_app = require("./routers_app");
 var session_middleware = require("./middlewares/sessions");
 
@@ -16,11 +17,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));//el true hablita varios tipos de paraseo
 
 
-app.use(session({
-  //id unico para el servidor o servicio(sirve para que no se cunfunda si estamos haciendo otra aplicacion)
-  secret:"qeruolk1234sd0ij",
-  resave: true,//define si la sesion se tiene que reguardar auque no haya sido modificada. si está en true se guarda. se usa para tener sesiones en paralelo
-  saveUninitialized: false//si la sesion debe guardarse si la sesion no esta inicialisada(es nueva)
+app.use(cookieSession({
+  name:"session",
+  keys: ["llave-123","llave-234"]
 }));
 
 app.set("view engine", "jade")
