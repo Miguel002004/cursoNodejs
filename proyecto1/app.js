@@ -6,6 +6,7 @@ var User = require("./models/user").User;
 var cookieSession = require("cookie-session");
 var router_app = require("./routers_app");
 var session_middleware = require("./middlewares/sessions");
+var methodOverride = require("method-override");//middleware para poder usar el PUT y DELETE. ya que no existen nativamente en html
 
 //middelware built-in para archivos estaticos en la carpeta /public
 //todo lo que está en public se puede acceder mediante la url(como en apache)
@@ -16,6 +17,8 @@ app.use("/public",express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));//el true hablita varios tipos de paraseo
 
+
+app.use(methodOverride("_method"));
 
 app.use(cookieSession({
   name:"session",

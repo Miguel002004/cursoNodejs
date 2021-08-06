@@ -15,7 +15,9 @@ Imagen.find((err,doc)=>{
 });
 
 router.get("/imagenes/:id/edit",(req, res)=>{
-
+  Imagen.findById(req.params.id, function (err, imagen) {
+    res.render("app/imagenes/edit", {imagen:imagen});
+  });
 });
 
 router.route("/imagenes/:id").get((req, res)=>{
@@ -23,9 +25,14 @@ router.route("/imagenes/:id").get((req, res)=>{
     //se pasa la imagen como parametro al reder de show.jade
     res.render("app/imagenes/show", {imagen:imagen});
     console.log(imagen);
-  })
-}).put((req, res)=>{
-
+  });
+}).put((req, res)=>{//editar imagen
+  Imagen.findById(req.params.id, function (err, imagen) {
+    imagen.title = req.body.title;
+    imagen.save((err)=>{
+      (!err) ? res.render("app/imagenes/show", {imagen:imagen}) : res.render("app/imagenes/"+imagen.id+"/edit", {imagen:imagen})
+    });
+  });
 }).delete((req, res)=>{
 
 });
