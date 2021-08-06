@@ -34,7 +34,16 @@ router.route("/imagenes/:id").get((req, res)=>{
     });
   });
 }).delete((req, res)=>{
-
+//recibe un json de condiciones para Eliminar
+Imagen.findOneAndRemove({_id:req.params.id},(err)=>{
+  if(!err){
+    res.redirect("/app/imagenes");
+  }
+  else {
+    console.log(err);
+    res.redirect("/app/imagenes/"+req.params.id);
+  }
+  });
 });
 
 //coleccion de imagenes

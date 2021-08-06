@@ -39,3 +39,12 @@ nav li a: hover{
 .tr:nth-of-type(odd){/*selecciona todos los que son impares(odd). pares(even)*/
   background-color: #eee;
 }
+
+form.link{
+  display: inline-block;
+}
+form.link input[type="submit"]{
+  background-color: transparent;
+  border: none;
+  color: #FF0000;
+}
