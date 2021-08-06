@@ -32,7 +32,11 @@ router.route("/imagenes/:id").get((req, res)=>{
 
 //coleccion de imagenes
 router.route("/imagenes").get((req, res)=>{
-
+  //se pasa un json vacio para que muestre todas las imagenes
+  Imagen.find({}, (err, imagenes)=>{
+    if (err) {res.redirect("/app");return}
+    res.render("app/imagenes/index", {imagenes:imagenes});
+  });
 }).post((req, res)=>{
  var data = {
    //titulo de la imagen

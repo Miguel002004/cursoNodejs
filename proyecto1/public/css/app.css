@@ -1,3 +1,41 @@
-body{
-  background-color: gray;
+.right-space{
+  margin-right: 1em;
+}
+
+.large-padding{
+  padding: 10px, 15px;
+}
+.black{
+  background-color: #222;
+}
+.white-text{
+  color:white;
+}
+nav{
+  position: relative;
+  text-align: left;
+}
+nav li{
+  display: inline-block;
+  margin-right: 1em;
+}
+nav li a{
+  color: white;
+}
+nav li a: hover{
+  color: white;
+}
+
+
+
+
+.white{
+  background-color: white;
+}
+
+.border{
+  border: solid 1px #eee;
+}
+.tr:nth-of-type(odd){/*selecciona todos los que son impares(odd). pares(even)*/
+  background-color: #eee;
 }
