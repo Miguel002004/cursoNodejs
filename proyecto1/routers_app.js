@@ -23,7 +23,6 @@ router.get("/imagenes/:id/edit",(req, res)=>{
 
 router.route("/imagenes/:id").get((req, res)=>{
   res.render("app/imagenes/show");
-  console.log(imagen);
 }).put((req, res)=>{//editar imagen
   res.locals.imagen.title = req.body.title;
   res.locals.imagen.save((err)=>{
@@ -44,15 +43,18 @@ Imagen.findOneAndRemove({_id:req.params.id},(err)=>{
 
 //coleccion de imagenes
 router.route("/imagenes").get((req, res)=>{
-  //se pasa un json vacio para que muestre todas las imagenes
-  Imagen.find({}, (err, imagenes)=>{
+  //se pasa un json con el id del usuario para que muestre solamente las imagenes que creo el mismo
+  Imagen.find({creator: res.locals.user._id}, (err, imagenes)=>{
     if (err) {res.redirect("/app");return}
     res.render("app/imagenes/index", {imagenes:imagenes});
   });
 }).post((req, res)=>{
+  console.log("usuarioid: "+res.locals.user._id);
  var data = {
    //titulo de la imagen
-   title: req.body.title
+   title: req.body.title,
+   //se asigna el usuario en locals con el middleware find_image.js
+   creator: res.locals.user._id
  }
  console.log(req.body.title);
  var imagen = new Imagen(data);
@@ -61,6 +63,7 @@ router.route("/imagenes").get((req, res)=>{
      res.redirect("/app/imagenes/"+imagen._id);
    }
    else {
+     console.log(imagen);
      res.render(err);
    }
  });
