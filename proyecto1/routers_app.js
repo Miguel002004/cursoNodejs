@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var Imagen = require("./models/imagenes");
+var image_finder_middleware = require("./middlewares/find_image");
 
 router.get("/", (req, res)=> {
   res.render("app/home");
@@ -13,25 +14,20 @@ Imagen.find((err,doc)=>{
   console.log(doc);
 });
 });
+//va a redirigir al middleware find_image.js(mio) todas las rutas con /imagenes + id + todo lo que siga
+router.all("/imagenes/:id*", image_finder_middleware);
 
 router.get("/imagenes/:id/edit",(req, res)=>{
-  Imagen.findById(req.params.id, function (err, imagen) {
-    res.render("app/imagenes/edit", {imagen:imagen});
-  });
+  res.render("app/imagenes/edit");
 });
 
 router.route("/imagenes/:id").get((req, res)=>{
-  Imagen.findById(req.params.id, function (err, imagen) {
-    //se pasa la imagen como parametro al reder de show.jade
-    res.render("app/imagenes/show", {imagen:imagen});
-    console.log(imagen);
-  });
+  res.render("app/imagenes/show");
+  console.log(imagen);
 }).put((req, res)=>{//editar imagen
-  Imagen.findById(req.params.id, function (err, imagen) {
-    imagen.title = req.body.title;
-    imagen.save((err)=>{
-      (!err) ? res.render("app/imagenes/show", {imagen:imagen}) : res.render("app/imagenes/"+imagen.id+"/edit", {imagen:imagen})
-    });
+  res.locals.imagen.title = req.body.title;
+  res.locals.imagen.save((err)=>{
+    (!err) ? res.render("app/imagenes/show") : res.render("app/imagenes/"+req.params.id+"/edit")
   });
 }).delete((req, res)=>{
 //recibe un json de condiciones para Eliminar
