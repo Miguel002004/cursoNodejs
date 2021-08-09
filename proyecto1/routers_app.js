@@ -44,6 +44,7 @@ Imagen.findOneAndRemove({_id:req.params.id},(err)=>{
 //coleccion de imagenes
 router.route("/imagenes").get((req, res)=>{
   //se pasa un json con el id del usuario para que muestre solamente las imagenes que creo el mismo
+  //se puede dejar el json vacio(solamente las llaves) para mostrar todas las imagenes
   Imagen.find({creator: res.locals.user._id}, (err, imagenes)=>{
     if (err) {res.redirect("/app");return}
     res.render("app/imagenes/index", {imagenes:imagenes});
