@@ -7,6 +7,7 @@ var cookieSession = require("cookie-session");
 var router_app = require("./routers_app");
 var session_middleware = require("./middlewares/sessions");
 var methodOverride = require("method-override");//middleware para poder usar el PUT y DELETE. ya que no existen nativamente en html
+var formidable = require("express-form-data");//middleware para detectar datos como imagenes
 
 //middelware built-in para archivos estaticos en la carpeta /public
 //todo lo que está en public se puede acceder mediante la url(como en apache)
@@ -19,6 +20,10 @@ app.use(bodyParser.urlencoded({extended: true}));//el true hablita varios tipos 
 
 
 app.use(methodOverride("_method"));
+//se pasa un json de configuracion. todo se guarda en una carpeta de almacenamiento temporal.
+//para guardar los datos. tenemos que moverlos a una carpeta o base de datos.
+app.use(formidable.parse({keepExtensions: true}));
+//^keepExtensions es para que guarde la extension de los archivos
 
 app.use(cookieSession({
   name:"session",

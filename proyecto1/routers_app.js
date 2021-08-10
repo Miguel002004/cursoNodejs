@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Imagen = require("./models/imagenes");
 var image_finder_middleware = require("./middlewares/find_image");
+var fs = require("fs");//para modificar archivos. no es necesaro installar
 
 router.get("/", (req, res)=> {
   res.render("app/home");
@@ -50,17 +51,28 @@ router.route("/imagenes").get((req, res)=>{
     res.render("app/imagenes/index", {imagenes:imagenes});
   });
 }).post((req, res)=>{
+  var extension = req.files.archivo.name.split(".").pop();//extraemos la extension del archivo
+  console.log("EXTENSION: "+extension);
   console.log("usuarioid: "+res.locals.user._id);
+  console.log("==========info archivo==========");
+  console.log(req.files.archivo);
+  console.log("================================");
  var data = {
    //titulo de la imagen
    title: req.body.title,
    //se asigna el usuario en locals con el middleware find_image.js
-   creator: res.locals.user._id
+   creator: res.locals.user._id,
+   extension:extension
  }
  console.log(req.body.title);
  var imagen = new Imagen(data);
  imagen.save(function (err) {
    if(!err){
+     fs.rename(req.files.archivo.path, 'public/imagenes/'+imagen._id+'.'+extension, (errfile)=>{
+       if (errfile) {
+         console.log(errfile);
+       }
+     });//mueve el archivo del folder temporal a nuestra carpeta de imagenes
      res.redirect("/app/imagenes/"+imagen._id);
    }
    else {

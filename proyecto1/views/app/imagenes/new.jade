@@ -1,6 +1,7 @@
 extends ../../layout.jade
 block contenido
-  form(action="/app/imagenes", method="POST")
+  //enctype es necesaro para enviar archivos. ya que express formidable solamente va a parsear archivos con este atributo
+  form(action="/app/imagenes", method="POST", enctype="multipart/form-data")
     h1 Subir nueva imagen
     div(class="form-group")
       label(for="title") Titulo
