@@ -6,7 +6,11 @@ var image_finder_middleware = require("./middlewares/find_image");
 var fs = require("fs");//para modificar archivos. no es necesaro installar
 
 router.get("/", (req, res)=> {
-  res.render("app/home");
+  Imagen.find({},)
+  .populate("creator")
+  .exec((err, imagenes)=>{
+    (err) ? console.log(err) : res.render("app/home",{imagenes:imagenes});
+  });
 });
 
 router.get("/imagenes/new", (req,res)=>{
